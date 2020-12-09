@@ -1,0 +1,96 @@
+'use strict';
+
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', _ => {
+    inputString = inputString.replace(/\s*$/, '')
+        .split('\n')
+        .map(str => str.replace(/\s*$/, ''));
+
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+
+const SinglyLinkedListNode = class {
+    constructor(nodeData) {
+        this.data = nodeData;
+        this.next = null;
+    }
+};
+
+const SinglyLinkedList = class {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    insertNode(nodeData) {
+        const node = new SinglyLinkedListNode(nodeData);
+
+        if (this.head == null) {
+            this.head = node;
+        } else {
+            this.tail.next = node;
+        }
+
+        this.tail = node;
+    }
+};
+
+function printSinglyLinkedList(node, sep, ws) {
+    while (node != null) {
+        ws.write(String(node.data));
+
+        node = node.next;
+
+        if (node != null) {
+            ws.write(sep);
+        }
+    }
+}
+var Node = function (data) {
+    this.data = data;
+    this.next = null;
+}
+function insertNodeAtPosition(head, data, position) {
+    if (!head) {
+        return new Node(data);
+    }
+
+    if (position === 0) {
+        const node = new Node(data);
+        node.next = head;
+        return node;
+    }
+
+    let next = head.next;
+    let current = head;
+    let counter = 1;
+    while (next != null && counter < position) {
+        current = current.next;
+        next = next.next;
+        counter++;
+    }
+
+    const node = new Node(data);
+    current.next = node;
+    node.next = next;
+
+    return head;
+
+}
+
+function main() {
